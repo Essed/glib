@@ -28,16 +28,22 @@ class Swapper:
 class Container:
     def __init__(self, contents: list) -> None:
         self.__contents = contents
-        print(self.__contents)
+        self.__cursor = 0
     
     def swap(self):
         swapper = Swapper()
-        result = list()
         for content in self.__contents:
             swapper.add_element(content)
-            result = swapper.swap()
-        return result
-      
+            self.__contents = swapper.swap()
+
+    def pop_first(self):
+        content = self.__contents[self.__cursor]
+        self.__contents.pop(self.__cursor)
+        return content
+    
+    def get_contents(self):
+        return self.__contents
+
 
 
 class Trade:
@@ -52,13 +58,15 @@ class Trade:
     def get_traders(self) -> dict:
         return self.__traders
 
-    def put_in(self, player: player.Player, content):
-        if player in self.__traders.keys():
+    def set_content_for_trader(self, player: player.Player, content):
+        if not self.__traders[player]:
             self.__traders[player] = content
 
     def swap(self):        
-        ct = Container(list(self.__traders.values()))
-        ct.swap()
+        container = Container(list(self.__traders.values()))
+        container.swap()
+        for trader in self.__traders.keys():
+            self.__traders[trader] = container.pop_first() 
 
     def show(self) -> None:
         print(self.__traders)

@@ -53,8 +53,11 @@ if __name__ == "__main__":
     t1.add_trader(pl3)
     t1.show()
 
-    t1.put_in(pl1, d1)
-    t1.put_in(pl2, d2)
+    t1.set_content_for_trader(pl1, d1)
+    t1.set_content_for_trader(pl2, d2)
+
 
     t1.show()
     t1.swap()
+    t1.show()
+  
