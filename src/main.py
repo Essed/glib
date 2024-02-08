@@ -60,4 +60,7 @@ if __name__ == "__main__":
     t1.show()
     t1.swap()
     t1.show()
-  
+    
+    #d3 = unit.Dinosaur()
+    gen = unit.StatsGenerator()
+    gen.prepare_properties()
