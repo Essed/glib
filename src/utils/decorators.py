@@ -4,6 +4,6 @@ def time_decorator(func):
     def wrapper(*args, **kwargs):
         start= time.time()
         result = func(*args, **kwargs)
-        print("Job time: ", time.time() -start)
+        print("Function time: ", time.time() -start)
         return result
     return wrapper

@@ -1,6 +1,6 @@
 from enum import Enum
 from utils.enums import nameof
-
+from random import randint
 
 class AttackType(Enum):
     MELEE = "MELEE"
@@ -17,15 +17,26 @@ class Rarity(Enum):
 
 
 
-class StatsGenerator:
-    def __init__(self) -> None:
-        pass
+class StatsCompiler:
+    def __init__(self, hp_value, armor_value, level_value) -> None:
+        self.__hp_value = hp_value
+        self.__armor_value = armor_value
+        self.__level_value = level_value
 
-    def generate_stats(self):
-        pass
+    def compile_stats(self):
+        stats = dict()
+        properties = self.__prepare_properties().items()
 
-    def prepare_properties(self):
-        stats_sets = dict()
+        for property_name, property_value in properties:
+            if type(property_value) == list:
+                stats[property_name] = randint(0, len(property_value) - 1)
+                print(property_name, property_value)
+        print(stats)
+
+        
+
+    def __prepare_properties(self):
+        properties = dict()
         
         attack_types = [attack_type for attack_type in AttackType]
         races = [race for race in Race]
@@ -34,12 +45,22 @@ class StatsGenerator:
         attack_type_classname = nameof(AttackType)
         race_classname = nameof(Race)
         rarity_classname = nameof(Rarity)
-        
-        stats_sets[attack_type_classname] = attack_types
-        stats_sets[race_classname] = races
-        stats_sets[rarity_classname] = rarities
 
-        print(stats_sets)
+        hp_value = 0
+        armor_value = 0
+        level_value = 0
+
+        properties[attack_type_classname] = attack_types
+        properties[race_classname] = races
+        properties[rarity_classname] = rarities
+        properties["hp"] = hp_value
+        properties["armor"] = armor_value
+        properties["level"] = level_value
+
+        return properties 
+
+
+
 
 class Dinosaur:
     def __init__(self, name, 

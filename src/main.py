@@ -62,5 +62,5 @@ if __name__ == "__main__":
     t1.show()
     
     #d3 = unit.Dinosaur()
-    gen = unit.StatsGenerator()
-    gen.prepare_properties()
+    gen = unit.StatsCompiler(100, 25, 5)
+    gen.compile_stats()
