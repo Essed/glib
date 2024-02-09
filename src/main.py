@@ -2,6 +2,9 @@ from game import player, coin, wallet
 from game import unit
 from game import battle
 from game import trade
+from game import inventory
+from game import quest
+from game import resources
 
 if __name__ == "__main__":
 
@@ -61,6 +64,44 @@ if __name__ == "__main__":
     t1.swap()
     t1.show()
     
-    #d3 = unit.Dinosaur()
-    gen = unit.StatsCompiler(100, 25, 5)
-    gen.compile_stats()
+    
+    gen = unit.StatsCompiler(100, 25, 30, 5)
+    stats_ = gen.compile_stats()
+    d3 = unit.Dinosaur("Invoker", stats_["Race"], stats_['level'], stats_['AttackType'], stats_['damage'], stats_['Rarity'], stats_['armor'], stats_['hp'])
+    d3.show()
+
+    i1 = inventory.Inventory()
+    i1.add_item(d1, 1)
+    i1.show()
+    i1.acquire_item(d1)
+    i1.show()
+    print(i1.count_items())
+
+    q1 = quest.Quest("Q_Quest", 25)
+    print(q1.get_quest_name())
+    print(q1.is_complete())
+    print(q1.get_award())
+
+    e1 = resources.Energy(10,5)
+    print(e1.get_max_quantity())
+    print(e1.get_quantity())
+    e1.consume(4)
+    print(e1.get_quantity())
+    e1.increase(3)
+    print(e1.get_quantity())
+    e1.refresh()
+    print(e1.get_quantity())
+    e1.upgrade_max_energy(100)
+    print(e1.get_max_quantity())
+
+
+    udb1 = unit.UnitDatabase()
+    udb1.add_unit(d1)
+    print(udb1.get_units())
+    udb1.add_units([d2, d3])
+    print(udb1.get_units())
+
+
+    ug1 = unit.UnitGenerator(udb1)
+    print("Generated unit:", ug1.generate_unit())
+  

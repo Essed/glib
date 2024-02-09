@@ -7,3 +7,10 @@ def time_decorator(func):
         print("Function time: ", time.time() -start)
         return result
     return wrapper
+
+
+def debug_log_function(func):
+    def wrapper(*args, **kwargs):
+        print("Debug Log: ", func)
+        return func(*args, **kwargs)
+    return wrapper

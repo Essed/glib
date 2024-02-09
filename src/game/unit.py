@@ -18,22 +18,22 @@ class Rarity(Enum):
 
 
 class StatsCompiler:
-    def __init__(self, hp_value, armor_value, level_value) -> None:
+    def __init__(self, hp_value, armor_value, damage_value, level_value) -> None:
         self.__hp_value = hp_value
         self.__armor_value = armor_value
         self.__level_value = level_value
+        self.__damage_value = damage_value
 
     def compile_stats(self):
         stats = dict()
         properties = self.__prepare_properties().items()
-
         for property_name, property_value in properties:
             if type(property_value) == list:
-                stats[property_name] = randint(0, len(property_value) - 1)
-                print(property_name, property_value)
-        print(stats)
-
-        
+                random_index = randint(0, len(property_value) - 1)
+                stats[property_name] = property_value[random_index]
+                continue
+            stats[property_name] = property_value
+        return stats
 
     def __prepare_properties(self):
         properties = dict()
@@ -46,9 +46,11 @@ class StatsCompiler:
         race_classname = nameof(Race)
         rarity_classname = nameof(Rarity)
 
-        hp_value = 0
-        armor_value = 0
-        level_value = 0
+        hp_value = randint(1, self.__hp_value)
+        armor_value = randint(1, self.__armor_value)
+        level_value = randint(1, self.__level_value)
+        damage_value = randint(1, self.__damage_value)
+
 
         properties[attack_type_classname] = attack_types
         properties[race_classname] = races
@@ -56,9 +58,9 @@ class StatsCompiler:
         properties["hp"] = hp_value
         properties["armor"] = armor_value
         properties["level"] = level_value
+        properties['damage'] = damage_value
 
         return properties 
-
 
 
 
@@ -111,3 +113,27 @@ class Dinosaur:
         
     def set_experience_for_up(self, exp_value: int):
         self.__experience_for_up = exp_value
+
+
+class UnitDatabase:
+    def __init__(self) -> None:
+        self.__units = list()
+
+    def add_unit(self, unit: Dinosaur):
+        self.__units.append(unit)
+
+    def add_units(self, units: list[Dinosaur]):
+        self.__units.extend(units)
+
+    def get_units(self):
+        return self.__units
+
+
+
+class UnitGenerator:
+    def __init__(self, unit_db: UnitDatabase) -> None:
+        self.__unit_db = unit_db
+    
+    def generate_unit(self):
+        unit_index = randint(0, len(self.__unit_db.get_units()) - 1)
+        return self.__unit_db.get_units()[unit_index]
