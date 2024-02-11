@@ -1,4 +1,4 @@
-from game import player
+from engine import player
 
 class Wallet:
     def __init__(self, player: player.Player, amount: float) -> None:

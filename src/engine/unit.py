@@ -136,4 +136,5 @@ class UnitGenerator:
     
     def generate_unit(self):
         unit_index = randint(0, len(self.__unit_db.get_units()) - 1)
-        return self.__unit_db.get_units()[unit_index]
+        generated_unit = self.__unit_db.get_units()[unit_index]
+        return generated_unit

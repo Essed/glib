@@ -1,4 +1,4 @@
-from game import player
+from engine import player
 
 
 
@@ -21,7 +21,6 @@ class Swapper:
     
     def show(self):
         print(self.__elements)
-
 
 
 

@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
-from game import unit
+from engine import unit
 
 class Battle: 
     def __init__(self) -> None:
-        self.__start_time = datetime.utcnow()
+        self.__start_time = datetime.now()
         self.__units = list()
 
     def show(self):
@@ -36,8 +36,5 @@ class PVE(Battle):
         for unt in self.get_units():
             unt.add_experience(exp_value)
 
-    def instance_unit(self):
-        return unit.Dinosaur("Wer", unit.Race.SWAMPERS,
-                              1, unit.AttackType.RANGE,
-                              10, unit.Rarity.RARE,
-                                10, 100)
+    def instance_unit(self, unit_db: unit.UnitDatabase):
+        return unit.UnitGenerator(unit_db).generate_unit()

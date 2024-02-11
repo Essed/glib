@@ -1,13 +1,14 @@
-from game import player, coin, wallet
-from game import unit
-from game import battle
-from game import trade
-from game import inventory
-from game import quest
-from game import resources
+from engine import player, coin, wallet
+from engine import unit
+from engine import battle
+from engine import trade
+from engine import inventory
+from engine import quest
+from engine import resources
+from engine import clan
+from engine import mining
 
 if __name__ == "__main__":
-
     pl1 = player.Player("Any")
     c1 = coin.Coin("Dyno") 
     w1 = wallet.Wallet(pl1, 1.99)
@@ -43,8 +44,6 @@ if __name__ == "__main__":
     d1.shift_experience()
     for un in p1.get_units():
         un.show()
-    d2 = p1.instance_unit()
-    d2.show()
      
     pl2 = player.Player("Askme")
     t1 = trade.Trade(2)
@@ -57,7 +56,7 @@ if __name__ == "__main__":
     t1.show()
 
     t1.set_content_for_trader(pl1, d1)
-    t1.set_content_for_trader(pl2, d2)
+    t1.set_content_for_trader(pl2, d1)
 
 
     t1.show()
@@ -67,20 +66,29 @@ if __name__ == "__main__":
     
     gen = unit.StatsCompiler(100, 25, 30, 5)
     stats_ = gen.compile_stats()
-    d3 = unit.Dinosaur("Invoker", stats_["Race"], stats_['level'], stats_['AttackType'], stats_['damage'], stats_['Rarity'], stats_['armor'], stats_['hp'])
-    d3.show()
+    d2 = unit.Dinosaur("Invoker", stats_["Race"], stats_['level'], stats_['AttackType'], stats_['damage'], stats_['Rarity'], stats_['armor'], stats_['hp'])
+    d2.show()
 
     i1 = inventory.Inventory()
     i1.add_item(d1, 1)
+    i1.add_item(d2, 1)
     i1.show()
     i1.acquire_item(d1)
+    i1.acquire_item(d2)
     i1.show()
+    print("IS Acquired item: ", i1.is_acquired(d1))
+    print("Acquired items: ", i1.get_acquired_items()) 
+    i1.unacquire_item(d2)
+    print("Acquired items: ", i1.get_acquired_items())
     print(i1.count_items())
 
-    q1 = quest.Quest("Q_Quest", 25)
+    q1 = quest.Quest("Quest1", 25, 3600, "Quest description", "www.google.com")
     print(q1.get_quest_name())
     print(q1.is_complete())
     print(q1.get_award())
+    print(q1.get_finish_time())
+    print(q1.get_quest_url())
+    print(q1.get_description())
 
     e1 = resources.Energy(10,5)
     print(e1.get_max_quantity())
@@ -98,10 +106,29 @@ if __name__ == "__main__":
     udb1 = unit.UnitDatabase()
     udb1.add_unit(d1)
     print(udb1.get_units())
-    udb1.add_units([d2, d3])
+    udb1.add_units([d2])
     print(udb1.get_units())
 
+    d3 = p1.instance_unit(udb1)
+    udb1.add_unit(d3)
+    print(udb1.get_units())
 
     ug1 = unit.UnitGenerator(udb1)
     print("Generated unit:", ug1.generate_unit())
   
+    cl1 = clan.Clan("Winners", "WIN", pl1)
+    cl1.accept(pl1)
+    cl1.accept(pl2)
+    print(cl1.get_members())
+    print(cl1.get_members_nickname())
+    cl1.kick("Any")
+    print(cl1.get_members())
+    print(cl1.get_clan_leader())
+    cl1.set_leadership("Askme")
+    print(cl1.get_clan_leader())
+    cl1.status()
+    print(cl1.status())
+    cl1.level_up(1)
+    print(cl1.status())
+    f1 = mining.Formula("!10+2*5:,!?")
+    f1.parse_formula()

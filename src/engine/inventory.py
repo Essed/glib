@@ -7,13 +7,21 @@ class Inventory:
     def add_item(self, item, amount: int):
         if not item in self.__inventory:
             self.__inventory[item] = amount
-            self.__items[item] = True
+            self.__items[item] = False
     
-    def acquire_item(self, item) -> bool:
+    def acquire_item(self, item):
+        if item in self.__items:
+            self.__items[item] = True
+
+    def unacquire_item(self, item):
         if item in self.__items:
             self.__items[item] = False
-            return True
-        return False
+
+    def is_acquired(self, item) -> bool:
+        return self.__items[item]
+
+    def get_acquired_items(self):
+        return [item for item in self.__items if self.__items[item]]
 
     def count_items(self) -> int:
         return len(self.__inventory)
