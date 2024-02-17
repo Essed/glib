@@ -7,14 +7,18 @@ class Formula:
     def parse_formula(self):
         inputs_symbols = [symbol for symbol in self.__formula if symbol in self.__excluded_symbols]
 
-        print(inputs_symbols)
+        if len(inputs_symbols) != 0:
+            raise ValueError("Unacceptable experssion")
+        
+        return self.__formula
             
+    
 
 class Miner:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, formula: Formula) -> None:
+        self.__formula = formula
 
     def mining(self) -> float:
-        pass
+        return eval(self.__formula.parse_formula())
 
     

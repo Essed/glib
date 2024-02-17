@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 class Quest:
-    def __init__(self, quest_name: str, award_amount: int,
+    def __init__(self, quest_name: str, award_amount: float,
                   duration_seconds: int, description: str, url: str = None) -> None:
         self.__status = False
         self.__quest_name = quest_name

@@ -9,7 +9,7 @@ class Battle:
     def show(self):
         print(self.__start_time)
 
-    def add_unit(self, unit: unit.Dinosaur):
+    def add_unit(self, unit):
         self.__units.append(unit)
 
     def get_units(self) -> list:

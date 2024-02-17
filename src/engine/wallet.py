@@ -1,8 +1,6 @@
-from engine import player
 
 class Wallet:
-    def __init__(self, player: player.Player, amount: float) -> None:
-        self.__player = player
+    def __init__(self, amount: float) -> None:
         self.__amount = amount
         self.__coin = None
 
@@ -19,4 +17,4 @@ class Wallet:
         self.__coin = coin
     
     def show(self):
-        print(self.__player, self.__coin, self.__amount)
+        print(self.__coin, self.__amount)

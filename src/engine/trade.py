@@ -1,4 +1,4 @@
-from engine import player
+from engine import actor
 
 
 
@@ -50,16 +50,16 @@ class Trade:
         self.__traders = dict()
         self.__count_members = count_members 
 
-    def add_trader(self, player: player.Player) -> None:
+    def add_trader(self, actor: actor.Actor) -> None:
         if len(self.__traders) < self.__count_members:
-            self.__traders[player] = None
+            self.__traders[actor] = None
 
     def get_traders(self) -> dict:
         return self.__traders
 
-    def set_content_for_trader(self, player: player.Player, content):
-        if not self.__traders[player]:
-            self.__traders[player] = content
+    def set_content_for_trader(self, actor: actor.Actor, content):
+        if not self.__traders[actor]:
+            self.__traders[actor] = content
 
     def swap(self):        
         container = Container(list(self.__traders.values()))

@@ -3,8 +3,8 @@ from utils.enums import nameof
 from random import randint
 
 class AttackType(Enum):
-    MELEE = "MELEE"
-    RANGE = "RANGE"
+    MELEE = "Melee"
+    RANGE = "Range"
 
 class Race(Enum):
     ROCK = "Rock"
@@ -16,7 +16,6 @@ class Rarity(Enum):
     RARE = "Rare"
 
 
-
 class StatsCompiler:
     def __init__(self, hp_value, armor_value, damage_value, level_value) -> None:
         self.__hp_value = hp_value
@@ -24,9 +23,25 @@ class StatsCompiler:
         self.__level_value = level_value
         self.__damage_value = damage_value
 
+    @property
+    def hp(self):
+        return self.__hp_value
+
+    @property
+    def armor(self):
+        return self.__armor_value
+    
+    @property
+    def level(self):
+        return self.__level_value
+    
+    @property
+    def damage(self):
+        return self.__damage_value
+
     def compile_stats(self):
         stats = dict()
-        properties = self.__prepare_properties().items()
+        properties = self.prepare_properties().items()
         for property_name, property_value in properties:
             if type(property_value) == list:
                 random_index = randint(0, len(property_value) - 1)
@@ -35,7 +50,7 @@ class StatsCompiler:
             stats[property_name] = property_value
         return stats
 
-    def __prepare_properties(self):
+    def prepare_properties(self):
         properties = dict()
         
         attack_types = [attack_type for attack_type in AttackType]
@@ -64,7 +79,7 @@ class StatsCompiler:
 
 
 
-class Dinosaur:
+class Unit:
     def __init__(self, name, 
                  race: Race, level: int, 
                  attack_type: AttackType, damage: float,
@@ -82,7 +97,8 @@ class Dinosaur:
         self.__hp = hp
         self.__experience_for_up: int = 0
         self.__experience: int = 0
-   
+
+
     def show(self):
         print(self.__name, self.__race.name,
               self.__attack_type.name, self.__level, self.__rarity.name,
@@ -114,27 +130,39 @@ class Dinosaur:
     def set_experience_for_up(self, exp_value: int):
         self.__experience_for_up = exp_value
 
+    def unwrap(self) -> dict:
+        return {
+            "name": self.__name,
+            "race": self.__race.value,
+            "level": self.__level,
+            "attack_type": self.__attack_type.value,     
+            "damage": self.__damage,
+            "rarity": self.__rarity.value,
+            "armor": self.__armor,
+            "hp": self.__hp                   
+        }
 
 class UnitDatabase:
     def __init__(self) -> None:
         self.__units = list()
 
-    def add_unit(self, unit: Dinosaur):
+    def add_unit(self, unit: Unit):
         self.__units.append(unit)
 
-    def add_units(self, units: list[Dinosaur]):
+    def add_units(self, units: list[Unit]):
         self.__units.extend(units)
 
     def get_units(self):
         return self.__units
 
-
+    def clear(self):
+        self.__units.clear()
 
 class UnitGenerator:
     def __init__(self, unit_db: UnitDatabase) -> None:
         self.__unit_db = unit_db
     
-    def generate_unit(self):
+    def generate_unit(self) -> list[Unit]:
         unit_index = randint(0, len(self.__unit_db.get_units()) - 1)
         generated_unit = self.__unit_db.get_units()[unit_index]
         return generated_unit

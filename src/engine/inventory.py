@@ -4,6 +4,12 @@ class Inventory:
         self.__inventory = dict()
         self.__items = dict()
 
+    def get_inventory(self):
+        return self.__inventory
+
+    def get_items(self):
+        return self.__items
+
     def add_item(self, item, amount: int):
         if not item in self.__inventory:
             self.__inventory[item] = amount

@@ -2,9 +2,10 @@ import time
 
 def time_decorator(func):
     def wrapper(*args, **kwargs):
-        start= time.time()
+        start = time.perf_counter()
         result = func(*args, **kwargs)
-        print("Function time: ", time.time() -start)
+        finish = time.perf_counter()
+        print("Function time: ", (finish - start))
         return result
     return wrapper
 
