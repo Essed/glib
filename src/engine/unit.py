@@ -1,6 +1,7 @@
 from enum import Enum
 from utils.enums import nameof
 from random import randint
+import json
 
 class AttackType(Enum):
     MELEE = "Melee"
@@ -146,6 +147,10 @@ class UnitDatabase:
     def __init__(self) -> None:
         self.__units = list()
 
+    @property
+    def count(self):
+        return len(self.__units)
+
     def add_unit(self, unit: Unit):
         self.__units.append(unit)
 
@@ -157,6 +162,10 @@ class UnitDatabase:
 
     def clear(self):
         self.__units.clear()
+
+    def print_units(self):
+        units_data = [unit.unwrap() for unit in self.__units]
+        print(json.dumps(units_data, indent=4))
 
 class UnitGenerator:
     def __init__(self, unit_db: UnitDatabase) -> None:
