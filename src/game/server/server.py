@@ -1,6 +1,9 @@
 from game.unitdb.unit_tools import Generator, Loader, StatsCompiler, UnitDatabase
+from game.gamelogic.game import Game
+
 from configparser import ConfigParser
 from dataclasses import dataclass
+
 import os 
 
 @dataclass
@@ -10,9 +13,11 @@ class GeneratorSettings:
     def set_stats(self, hp_value, armor_value, damage_value, level_value):
         self.stats_compiler = StatsCompiler(hp_value, armor_value, damage_value, level_value)
     
+
 @dataclass
 class LoaderSettings:
     unit_database: UnitDatabase = UnitDatabase()
+
 
 
 class ServerConfig:
@@ -20,14 +25,14 @@ class ServerConfig:
         self.__config = ConfigParser()
         self.__generator_settings = GeneratorSettings()
         self.__loader_settings = LoaderSettings()
-        self.__config_path = config_path 
+        self.__config_path = config_path
         
     @property
-    def generator(self):
+    def generator_settings(self):
         return self.__generator_settings
 
     @property
-    def loader(self):
+    def loader_settings(self):
         return self.__loader_settings
 
     def __set_generator_settings(self, hp_value, armor_value, damage_value, level_value):
@@ -36,15 +41,17 @@ class ServerConfig:
     def generate_default(self):
         self.__set_configs()
 
-    def configure(self):
-        self.__set_generator_settings()
-        self.__set_configs()
-
-    def __set_configs(self):
-
+    def generate(self):
         if not os.path.exists(self.__config_path):
-            return  
+            self.__set_generator_settings(100, 35, 25, 5)
+            self.__set_configs()
+            return
         
+        self.__get_config()
+        stats = self.get_compiler()
+        self.__set_generator_settings(stats.hp, stats.armor, stats.damage, stats.level)
+
+    def __set_configs(self):        
         self.__config.add_section("StatsCompiler")
         self.__config.set("StatsCompiler", "hp", str(self.__generator_settings.stats_compiler.hp))
         self.__config.set("StatsCompiler", "armor", str(self.__generator_settings.stats_compiler.armor))
@@ -55,7 +62,10 @@ class ServerConfig:
         with open(self.__config_path, "w") as file:
             self.__config.write(file)
 
-    def get_config(self) -> dict:
+    def __get_config(self) -> dict:
+        if not os.path.exists(self.__config_path):
+            return 
+
         self.__config.read(self.__config_path)
         config = {            
             "StatsCompiler": {
@@ -67,15 +77,45 @@ class ServerConfig:
         }
         return config
 
+    def get_compiler(self):
+        stats: dict = self.__get_config()["StatsCompiler"]
+        for key, value in stats.items():
+            stats[key] = int(value)
+        stats_compiler = StatsCompiler(stats["hp"], stats["armor"], stats["damage"], stats["level"])
+        return stats_compiler
+
+    def make_generator(self):
+        stats_compiler = self.get_compiler()
+        return Generator(stats_compiler, self.__loader_settings.unit_database)
+    
+    def make_loader(self):
+        return Loader(self.__loader_settings.unit_database)
+
 
 
 class GameServer:
-    def __init__(self, generator: Generator, loader: Loader) -> None:
+    def __init__(self, generator: Generator, loader: Loader, game: Game) -> None:
         self.__generator = generator
         self.__loader = loader
+        self.__game = game
 
-    def awake(self):
-        self.__generator.generate_units()
+    @property
+    def game(self):
+        return self.__game
+    
+    def perform_action(self):
+        print("Performed")
+
+    def awake(self, path_unit_db: str, units_amount: int):   
+        print("Game server awake... ")     
+        if not os.path.exists(path_unit_db):
+            units = self.__generator.generate_units(units_amount)
+            self.__generator.save_database(units, path_unit_db)
+        
+        units_db = self.__loader.load(path_unit_db)
+        print("\tUnit Database created: ", units_db)
 
     def start(self):
-        pass
+        print("Game server start... ")
+        print("\tGame title: ", self.__game.title)
+        print("\tGame version: ", self.__game.version)

@@ -27,7 +27,7 @@ class Loader:
     def __init__(self, unit_db: UnitDatabase) -> None:
         self.__unit_database = unit_db
     
-    def build_unit(self, data: dict) -> Unit:
+    def __build_unit(self, data: dict) -> Unit:
         unit_name = data['name']
         unit_race = Race(data['race'])
         unit_level = data['level']
@@ -40,10 +40,10 @@ class Loader:
         builded_unit = Unit(unit_name, unit_race, unit_level, unit_attack_type, unit_damage, unit_rarity, unit_armor, unit_hp)
         return builded_unit
 
-    def load(self, path: str) -> list[Unit]:
+    def load(self, path: str) -> UnitDatabase:
         with open(path, 'r') as file:
             data = json.load(file)
             for element in data:
-                loaded_unit = self.build_unit(element)
-                self.__unit_database.add_unit(loaded_unit)            
-        return self.__unit_database.get_units()
+                loaded_unit = self.__build_unit(element)
+                self.__unit_database.add_unit(loaded_unit) 
+        return self.__unit_database
