@@ -2,6 +2,7 @@ from engine.clan import Clan
 from game.components.player import Player
 
 
+
 class Guild():
     def __init__(self, name: str, tag: str, player: Player) -> None:
         self.__guild = Clan(name, tag, player.player)
@@ -15,6 +16,9 @@ class Guild():
     @property
     def rank(self):
         return self.__rank
+
+    def tag(self) -> str:
+        return self.__guild.get_tag()
 
     def name(self) -> str:
         return self.__guild.get_name()

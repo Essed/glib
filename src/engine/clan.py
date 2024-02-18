@@ -1,6 +1,8 @@
 from engine import actor
 from typing import List
 
+
+
 class Clan:
     def __init__(self, name: str, clan_tag: str, clan_leader: actor.Actor) -> None:
         self.__name = name
@@ -42,6 +44,10 @@ class Clan:
     def get_name(self):
         return self.__name
     
+    def get_tag(self):
+        return self.__clan_tag
+
+
     def status(self):
         return dict({
             "Name": self.__name,

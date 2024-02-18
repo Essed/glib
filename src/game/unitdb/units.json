@@ -1,102 +1,102 @@
 [
     {
         "name": "Razor",
-        "race": "Rock",
-        "level": 2,
-        "attack_type": "Melee",
-        "damage": 18,
+        "race": "Swampers",
+        "level": 4,
+        "attack_type": "Range",
+        "damage": 9,
         "rarity": "Rare",
-        "armor": 7,
-        "hp": 38
-    },
-    {
-        "name": "Razor",
-        "race": "Swampers",
-        "level": 2,
-        "attack_type": "Range",
-        "damage": 20,
-        "rarity": "Rare",
-        "armor": 26,
-        "hp": 90
-    },
-    {
-        "name": "Razor",
-        "race": "Swampers",
-        "level": 3,
-        "attack_type": "Range",
-        "damage": 16,
-        "rarity": "Uncommon",
-        "armor": 18,
-        "hp": 68
-    },
-    {
-        "name": "Razor",
-        "race": "Swampers",
-        "level": 2,
-        "attack_type": "Range",
-        "damage": 25,
-        "rarity": "Rare",
-        "armor": 1,
-        "hp": 100
-    },
-    {
-        "name": "Razor",
-        "race": "Swampers",
-        "level": 1,
-        "attack_type": "Range",
-        "damage": 18,
-        "rarity": "Uncommon",
         "armor": 20,
-        "hp": 39
+        "hp": 15
     },
     {
         "name": "Razor",
         "race": "Rock",
-        "level": 4,
-        "attack_type": "Range",
-        "damage": 22,
-        "rarity": "Uncommon",
-        "armor": 31,
-        "hp": 16
-    },
-    {
-        "name": "Razor",
-        "race": "Rock",
-        "level": 4,
-        "attack_type": "Range",
-        "damage": 21,
-        "rarity": "Rare",
-        "armor": 5,
-        "hp": 38
-    },
-    {
-        "name": "Razor",
-        "race": "Swampers",
-        "level": 2,
+        "level": 3,
         "attack_type": "Melee",
-        "damage": 10,
-        "rarity": "Rare",
-        "armor": 24,
-        "hp": 99
-    },
-    {
-        "name": "Razor",
-        "race": "Rock",
-        "level": 1,
-        "attack_type": "Range",
-        "damage": 5,
-        "rarity": "Common",
-        "armor": 24,
-        "hp": 66
+        "damage": 15,
+        "rarity": "Uncommon",
+        "armor": 19,
+        "hp": 55
     },
     {
         "name": "Razor",
         "race": "Rock",
         "level": 5,
-        "attack_type": "Melee",
-        "damage": 22,
-        "rarity": "Rare",
-        "armor": 6,
+        "attack_type": "Range",
+        "damage": 13,
+        "rarity": "Uncommon",
+        "armor": 15,
+        "hp": 56
+    },
+    {
+        "name": "Razor",
+        "race": "Swampers",
+        "level": 1,
+        "attack_type": "Range",
+        "damage": 7,
+        "rarity": "Uncommon",
+        "armor": 10,
         "hp": 13
+    },
+    {
+        "name": "Razor",
+        "race": "Swampers",
+        "level": 5,
+        "attack_type": "Melee",
+        "damage": 18,
+        "rarity": "Rare",
+        "armor": 7,
+        "hp": 3
+    },
+    {
+        "name": "Razor",
+        "race": "Swampers",
+        "level": 1,
+        "attack_type": "Melee",
+        "damage": 14,
+        "rarity": "Common",
+        "armor": 17,
+        "hp": 36
+    },
+    {
+        "name": "Razor",
+        "race": "Rock",
+        "level": 5,
+        "attack_type": "Range",
+        "damage": 17,
+        "rarity": "Uncommon",
+        "armor": 11,
+        "hp": 66
+    },
+    {
+        "name": "Razor",
+        "race": "Swampers",
+        "level": 1,
+        "attack_type": "Range",
+        "damage": 22,
+        "rarity": "Common",
+        "armor": 20,
+        "hp": 49
+    },
+    {
+        "name": "Razor",
+        "race": "Rock",
+        "level": 2,
+        "attack_type": "Melee",
+        "damage": 2,
+        "rarity": "Rare",
+        "armor": 29,
+        "hp": 74
+    },
+    {
+        "name": "Razor",
+        "race": "Rock",
+        "level": 4,
+        "attack_type": "Range",
+        "damage": 9,
+        "rarity": "Common",
+        "armor": 1,
+        "hp": 83
     }
 ]

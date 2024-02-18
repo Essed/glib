@@ -1,6 +1,9 @@
 from game.unitdb.unit_tools import Generator, Loader, StatsCompiler, UnitDatabase
+from game.gamelogic.game import Game
+
 from configparser import ConfigParser
 from dataclasses import dataclass
+
 import os 
 
 @dataclass
@@ -10,9 +13,11 @@ class GeneratorSettings:
     def set_stats(self, hp_value, armor_value, damage_value, level_value):
         self.stats_compiler = StatsCompiler(hp_value, armor_value, damage_value, level_value)
     
+
 @dataclass
 class LoaderSettings:
     unit_database: UnitDatabase = UnitDatabase()
+
 
 
 class ServerConfig:
@@ -42,6 +47,7 @@ class ServerConfig:
             self.__set_configs()
             return
         
+        self.__get_config()
         stats = self.get_compiler()
         self.__set_generator_settings(stats.hp, stats.armor, stats.damage, stats.level)
 
@@ -72,7 +78,7 @@ class ServerConfig:
         return config
 
     def get_compiler(self):
-        stats = self.__get_config()["StatsCompiler"]
+        stats: dict = self.__get_config()["StatsCompiler"]
         for key, value in stats.items():
             stats[key] = int(value)
         stats_compiler = StatsCompiler(stats["hp"], stats["armor"], stats["damage"], stats["level"])
@@ -87,12 +93,18 @@ class ServerConfig:
 
 
 
-
 class GameServer:
-    def __init__(self, generator: Generator, loader: Loader) -> None:
+    def __init__(self, generator: Generator, loader: Loader, game: Game) -> None:
         self.__generator = generator
         self.__loader = loader
-        self.__logs = list()
+        self.__game = game
+
+    @property
+    def game(self):
+        return self.__game
+    
+    def perform_action(self, data):
+        print("\tPerformed ", data)
 
     def awake(self, path_unit_db: str, units_amount: int):   
         print("Game server awake... ")     
@@ -100,10 +112,10 @@ class GameServer:
             units = self.__generator.generate_units(units_amount)
             self.__generator.save_database(units, path_unit_db)
         
-        units_db = self.__loader.load(path_unit_db)        
-        print(units_db)
+        units_db = self.__loader.load(path_unit_db)
+        print("\tUnit Database created: ", units_db)
 
     def start(self):
         print("Game server start... ")
-
-    
+        print("\tGame title: ", self.__game.title)
+        print("\tGame version: ", self.__game.version)
