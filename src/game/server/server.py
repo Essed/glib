@@ -1,5 +1,6 @@
 from game.unitdb.unit_tools import Generator, Loader, StatsCompiler, UnitDatabase
 from game.gamelogic.game import Game
+from game.components.player import Player
 
 from configparser import ConfigParser
 from dataclasses import dataclass
@@ -103,8 +104,21 @@ class GameServer:
     def game(self):
         return self.__game
     
-    def perform_action(self):
-        print("Performed")
+
+    def parse_action(self, data):
+        data: dict = data
+
+        if data["logic"] is not None:
+            print(data["logic"])
+            bounden_logic = data["logic"]
+            bounded_params = data["params"]
+            for logic in data.keys():
+                print("logic: ", logic)
+
+    def perform_action(self, data):
+        print("\tPerformed:", data)
+        self.parse_action(data)
+
 
     def awake(self, path_unit_db: str, units_amount: int):   
         print("Game server awake... ")     
