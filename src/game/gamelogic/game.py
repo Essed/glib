@@ -27,5 +27,3 @@ class Game:
     def create_default_account(self, player: Player):
         player.load_inventory(PlayerInventory())
         player.change_balance(PlayerWallet().balance())
-    
-    

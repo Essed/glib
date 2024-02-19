@@ -1,6 +1,6 @@
 from game.gamelogic.game import Game
 from game.server.server import ServerConfig, GameServer
-from game.server.action import Action, ActionRegistred, ActionLinker
+from game.server.action import Action, ActionRegister, ActionLinker
 
 if __name__ == "__main__":
 
@@ -16,4 +16,4 @@ if __name__ == "__main__":
 
     ActionLinker(game_server)
     Action()
-    ActionRegistred("Askme")
+    ActionRegister("Askme")

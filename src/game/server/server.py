@@ -1,5 +1,6 @@
 from game.unitdb.unit_tools import Generator, Loader, StatsCompiler, UnitDatabase
 from game.gamelogic.game import Game
+from game.server.server_packet import Packet
 
 from configparser import ConfigParser
 from dataclasses import dataclass
@@ -103,8 +104,12 @@ class GameServer:
     def game(self):
         return self.__game
     
-    def perform_action(self, data):
-        print("\tPerformed ", data)
+
+    def perform_action(self, packet: Packet):
+        
+        action = packet.pack()
+        print("\tPerformed:", action.perform())
+
 
     def awake(self, path_unit_db: str, units_amount: int):   
         print("Game server awake... ")     
