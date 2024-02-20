@@ -167,6 +167,9 @@ class UnitDatabase:
         units_data = [unit.unwrap() for unit in self.__units]
         print(json.dumps(units_data, indent=4))
 
+    def select_index(self, index: int):
+        pass
+
 class UnitGenerator:
     def __init__(self, unit_db: UnitDatabase) -> None:
         self.__unit_db = unit_db

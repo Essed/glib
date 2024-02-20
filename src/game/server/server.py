@@ -1,6 +1,5 @@
 from game.unitdb.unit_tools import Generator, Loader, StatsCompiler, UnitDatabase
 from game.gamelogic.game import Game
-from game.components.player import Player
 
 from configparser import ConfigParser
 from dataclasses import dataclass
@@ -93,43 +92,37 @@ class ServerConfig:
         return Loader(self.__loader_settings.unit_database)
 
 
-
 class GameServer:
     def __init__(self, generator: Generator, loader: Loader, game: Game) -> None:
         self.__generator = generator
         self.__loader = loader
         self.__game = game
+        self.__unit_database = None
 
     @property
     def game(self):
         return self.__game
     
+    @property
+    def unit_database(self):
+        return self.__unit_database
 
-    def parse_action(self, data):
-        data: dict = data
-
-        if data["logic"] is not None:
-            print(data["logic"])
-            bounden_logic = data["logic"]
-            bounded_params = data["params"]
-            for logic in data.keys():
-                print("logic: ", logic)
-
-    def perform_action(self, data):
-        print("\tPerformed:", data)
-        self.parse_action(data)
-
+    def __create_unit_database(self, unit_db: UnitDatabase):
+        self.__unit_database = unit_db
 
     def awake(self, path_unit_db: str, units_amount: int):   
-        print("Game server awake... ")     
+        print("Game server awake...")     
         if not os.path.exists(path_unit_db):
             units = self.__generator.generate_units(units_amount)
             self.__generator.save_database(units, path_unit_db)
         
         units_db = self.__loader.load(path_unit_db)
-        print("\tUnit Database created: ", units_db)
+        self.__create_unit_database(units_db)
+
+        print("\tUnit Database created:", units_db)
+
 
     def start(self):
-        print("Game server start... ")
-        print("\tGame title: ", self.__game.title)
-        print("\tGame version: ", self.__game.version)
+        print("Game server start...")
+        print("\tGame title:", self.__game.title)
+        print("\tGame version:", self.__game.version)
