@@ -6,18 +6,17 @@ class Battle:
         self.__start_time = datetime.now()
         self.__units = list()
 
-    def show(self):
+    async def show(self):
         print(self.__start_time)
 
-    def add_unit(self, unit):
+    async def add_unit(self, unit):
         self.__units.append(unit)
 
-    def get_units(self) -> list:
+    async def get_units(self) -> list[unit.Unit]:
         return self.__units
 
-    def get_start_time(self):
+    async def get_start_time(self):
         return self.__start_time
-
 
 
 class PVE(Battle):
@@ -26,15 +25,20 @@ class PVE(Battle):
         self.__finish_time = None
         self.__time = time_seconds
 
-    def set_finish_time(self):
-        self.__finish_time = super().get_start_time() + timedelta(seconds=self.__time)
+    async def set_finish_time(self):
+        self.__finish_time = await super().get_start_time() + timedelta(seconds=self.__time)
         
-    def get_finish_time(self):
+    async def get_finish_time(self):
         return self.__finish_time
 
-    def progress_unit(self, exp_value):
+    async def progress_unit(self, exp_value):
         for unt in self.get_units():
             unt.add_experience(exp_value)
 
-    def instance_unit(self, unit_db: unit.UnitDatabase):
+    async def instance_unit(self, unit_db: unit.UnitDatabase):
         return unit.UnitGenerator(unit_db).generate_unit()
+    
+    async def finish(self):
+        self.__finish_time = None
+        self.__time = 0
+        return self

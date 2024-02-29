@@ -8,14 +8,14 @@ class PlayerWallet:
     def wallet_obj(self):
         return self.__wallet
     
-    def balance(self):
-        return self.__wallet.get_balance()
+    async def balance(self):
+        return await self.__wallet.get_balance()
     
-    def accure(self, value: float):
-        amount = self.balance() + value
-        self.__wallet.set_balance(amount)
+    async def accure(self, value: float):
+        amount = await self.balance() + value
+        await self.__wallet.set_balance(amount)
     
-    def withdraw(self, value: float):
-        amount = self.balance() - value
-        self.__wallet.set_balance(amount)
+    async def withdraw(self, value: float):
+        amount = await self.balance() - value
+        await self.__wallet.set_balance(amount)
     

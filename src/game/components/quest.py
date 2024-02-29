@@ -8,23 +8,23 @@ class PlayerQuest:
     def quest(self):
         return self.__quest
     
-    def complete(self):
+    async def complete(self):
         self.__quest.complete()
 
-    def is_complete(self) -> bool:
+    async def is_complete(self) -> bool:
         return self.__quest.is_complete()
     
-    def quest_name(self) -> str:
+    async def quest_name(self) -> str:
         return self.__quest.get_quest_name()
 
-    def get_award(self):
+    async def get_award(self):
         return self.__quest.get_award()
     
-    def finish_time(self):
+    async def finish_time(self):
         return self.__quest.get_finish_time()
     
-    def get_url(self) -> str:
+    async def get_url(self) -> str:
         return self.__quest.get_quest_url()
     
-    def get_description(self) -> str:
+    async def get_description(self) -> str:
         return self.__quest.get_description()

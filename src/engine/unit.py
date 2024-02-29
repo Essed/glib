@@ -40,7 +40,7 @@ class StatsCompiler:
     def damage(self):
         return self.__damage_value
 
-    def compile_stats(self):
+    async def compile_stats(self):
         stats = dict()
         properties = self.prepare_properties().items()
         for property_name, property_value in properties:
@@ -51,7 +51,7 @@ class StatsCompiler:
             stats[property_name] = property_value
         return stats
 
-    def prepare_properties(self):
+    async def prepare_properties(self):
         properties = dict()
         
         attack_types = [attack_type for attack_type in AttackType]
@@ -81,7 +81,7 @@ class StatsCompiler:
 
 
 class Unit:
-    def __init__(self, name, 
+    def __init__(self, name: str, 
                  race: Race, level: int, 
                  attack_type: AttackType, damage: float,
                  rarity: Rarity,
@@ -100,38 +100,38 @@ class Unit:
         self.__experience: int = 0
 
 
-    def show(self):
+    async def show(self):
         print(self.__name, self.__race.name,
               self.__attack_type.name, self.__level, self.__rarity.name,
               self.__damage, self.__armor, self.__hp,
               self.__experience, self.__experience_for_up
             )
 
-    def apply_damage(self, damage: float):
+    async def apply_damage(self, damage: float):
         self.__hp -= damage
 
-    def add_experience(self, exp_value: int):
+    async def add_experience(self, exp_value: int):
         self.__experience += exp_value
     
-    def try_levelup(self) -> bool:
+    async def try_levelup(self) -> bool:
         if self.__experience_for_up != self.__experience:
             return False
         return True
     
-    def level_up(self):
+    async def level_up(self):
         self.__level += 1
     
-    def reset_experience(self):
+    async def reset_experience(self):
         self.__experince = 0
     
-    def shift_experience(self):
+    async def shift_experience(self):
         if self.__experince > self.__experience_for_up:   
             self.__experince = self.__experince - self.__experience_for_up
         
-    def set_experience_for_up(self, exp_value: int):
+    async def set_experience_for_up(self, exp_value: int):
         self.__experience_for_up = exp_value
 
-    def unwrap(self) -> dict:
+    async def unwrap(self) -> dict:
         return {
             "name": self.__name,
             "race": self.__race.value,
@@ -153,28 +153,31 @@ class UnitDatabase:
 
     def add_unit(self, unit: Unit):
         self.__units.append(unit)
-
-    def add_units(self, units: list[Unit]):
+    
+    async def add_units(self, units: list[Unit]):
         self.__units.extend(units)
 
     def get_units(self):
         return self.__units
 
-    def clear(self):
-        self.__units.clear()
+    async def async_get_units(self):
+        return self.__units
 
-    def print_units(self):
-        units_data = [unit.unwrap() for unit in self.__units]
+    async def clear(self):
+        await self.__units.clear()
+
+    async def print_units(self):
+        units_data = [await unit.unwrap() for unit in self.__units]
         print(json.dumps(units_data, indent=4))
 
-    def select_index(self, index: int):
-        pass
+    async def select_index(self, index: int) -> Unit:
+        return self.__units[index]
 
 class UnitGenerator:
     def __init__(self, unit_db: UnitDatabase) -> None:
         self.__unit_db = unit_db
     
-    def generate_unit(self) -> list[Unit]:
+    async def generate_unit(self) -> list[Unit]:
         unit_index = randint(0, len(self.__unit_db.get_units()) - 1)
         generated_unit = self.__unit_db.get_units()[unit_index]
         return generated_unit

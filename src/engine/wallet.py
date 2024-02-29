@@ -4,17 +4,17 @@ class Wallet:
         self.__amount = amount
         self.__coin = None
 
-    def get_balance(self) -> float:
+    async def get_balance(self) -> float:
         return self.__amount
 
-    def set_balance(self, amount: float):
+    async def set_balance(self, amount: float):
         self.__amount = amount
 
-    def get_coin(self) -> str:
+    async def get_coin(self) -> str:
         return self.__coin
 
-    def set_coin(self, coin: str):
+    async def set_coin(self, coin: str):
         self.__coin = coin
     
-    def show(self):
+    async def show(self):
         print(self.__coin, self.__amount)

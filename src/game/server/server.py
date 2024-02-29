@@ -1,5 +1,8 @@
 from game.unitdb.unit_tools import Generator, Loader, StatsCompiler, UnitDatabase
 from game.gamelogic.game import Game
+from game.components.player import Player
+from game.components.dinosaur import Dinosaur
+from game.database.db import DataBase
 
 from configparser import ConfigParser
 from dataclasses import dataclass
@@ -36,7 +39,7 @@ class ServerConfig:
         return self.__loader_settings
 
     def __set_generator_settings(self, hp_value, armor_value, damage_value, level_value):
-        self.__generator_settings.set_stats(hp_value, armor_value, damage_value, level_value)
+         self.__generator_settings.set_stats(hp_value, armor_value, damage_value, level_value)
 
     def generate_default(self):
         self.__set_configs()
@@ -98,6 +101,8 @@ class GameServer:
         self.__loader = loader
         self.__game = game
         self.__unit_database = None
+        self.__players = list()
+        self.__database = DataBase("C:/Users/vipar/OneDrive/Desktop/tgplay/game.db")
 
     @property
     def game(self):
@@ -107,22 +112,49 @@ class GameServer:
     def unit_database(self):
         return self.__unit_database
 
-    def __create_unit_database(self, unit_db: UnitDatabase):
+
+    async def __create_unit_database(self, unit_db: UnitDatabase):
         self.__unit_database = unit_db
 
-    def awake(self, path_unit_db: str, units_amount: int):   
+
+    async def awake(self, path_unit_db: str, units_amount: int):   
         print("Game server awake...")     
+        print("\tDatabase connected:", self.__database)
+        
         if not os.path.exists(path_unit_db):
-            units = self.__generator.generate_units(units_amount)
-            self.__generator.save_database(units, path_unit_db)
+            units = await self.__generator.generate_units(units_amount)
+            await self.__generator.save_database(units, path_unit_db)
         
         units_db = self.__loader.load(path_unit_db)
-        self.__create_unit_database(units_db)
-
+        await self.__create_unit_database(units_db)
         print("\tUnit Database created:", units_db)
 
-
-    def start(self):
+    async def start(self):
         print("Game server start...")
         print("\tGame title:", self.__game.title)
         print("\tGame version:", self.__game.version)
+
+
+    async def connect(self, player: Player):
+        self.__players.append(player)
+        print(f"\tPlayer '{await player.nickname()}' connected")
+
+
+    async def instance_dino(self, index: int) -> Dinosaur:
+        dino = await self.__unit_database.select_index(index)
+        dino = await dino.unwrap()
+        return Dinosaur(dino['name'], dino['race'], dino['level'], dino['attack_type'], dino['damage'], dino['rarity'], dino['armor'], dino['hp'])
+    
+
+    async def player_exists(self, nickname: str) -> bool:
+        player = self.__database.get_user_by_nickname(nickname)
+
+        if player is None:
+            return False
+
+        return True
+
+    async def auth_player(self, player_id: str) -> bool:
+        auth_status = self.__database.exist_user_with_id(player_id)
+
+        print(auth_status)

@@ -4,7 +4,7 @@ class Formula:
         self.__formula = formula
         self.__excluded_symbols = "\!,?|@&#<>~$:;"
 
-    def parse_formula(self):
+    async def parse_formula(self):
         inputs_symbols = [symbol for symbol in self.__formula if symbol in self.__excluded_symbols]
 
         if len(inputs_symbols) != 0:
@@ -18,7 +18,7 @@ class Miner:
     def __init__(self, formula: Formula) -> None:
         self.__formula = formula
 
-    def mining(self) -> float:
+    async def mining(self) -> float:
         return eval(self.__formula.parse_formula())
 
     

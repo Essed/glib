@@ -5,9 +5,9 @@ class Actor:
         self.__nickname = nickname
         self.__invites = list()
 
-    def get_nickname(self) -> str:
+    async def get_nickname(self) -> str:
         return self.__nickname
     
-    def add_invite(self, invite):
+    async def add_invite(self, invite):
         self.__invites.append(invite)
     

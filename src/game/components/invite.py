@@ -10,5 +10,5 @@ class GuildInvite:
     message: str
 
     
-    def base(self):
+    async def base(self):
         return ClanInvite(self.guild.guild, self.message, self.addresser.player)

@@ -1,13 +1,12 @@
 from engine.unit import Unit, StatsCompiler, UnitDatabase, Race, Rarity, AttackType
 import json
 
-
 class Generator:
     def __init__(self, compiler: StatsCompiler, unit_db: UnitDatabase) -> None:
         self.__compiler = compiler
         self.__unit_database = unit_db
     
-    def generate_units(self, amount: int) -> list[Unit]:
+    async def generate_units(self, amount: int) -> list[Unit]:
         units = list()
         count = 0
         while count < amount:
@@ -18,8 +17,8 @@ class Generator:
             count+=1
         return units
     
-    def save_database(self, data, path: str):
-        with open(path, 'w') as file:
+    async def save_database(self, data, path: str):
+        async with open(path, 'w') as file:
             json.dump(data, file)
 
 

@@ -11,23 +11,23 @@ class Quest:
         self.__url = url
         self.__created_time = datetime.now()
     
-    def complete(self):
+    async def complete(self):
         self.__status = True
     
-    def is_complete(self):
+    async def is_complete(self):
         return self.__status
     
-    def get_quest_name(self):
+    async def get_quest_name(self):
         return self.__quest_name
     
-    def get_award(self):
+    async def get_award(self):
         return self.__award_amount
         
-    def get_finish_time(self):
+    async def get_finish_time(self):
         return self.__created_time + timedelta(seconds=self.__duration_second)
     
-    def get_quest_url(self):
+    async def get_quest_url(self):
         return self.__url
     
-    def get_description(self):
+    async def get_description(self):
         return self.__description

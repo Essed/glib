@@ -17,36 +17,36 @@ class Guild():
     def rank(self):
         return self.__rank
 
-    def tag(self) -> str:
+    async def tag(self) -> str:
         return self.__guild.get_tag()
 
-    def name(self) -> str:
+    async def name(self) -> str:
         return self.__guild.get_name()
     
-    def leader(self) -> str:
+    async def leader(self) -> str:
         return self.__guild.get_clan_leader()
     
-    def rank_up(self, value: int):
+    async def rank_up(self, value: int):
         self.__rank += value
 
-    def level_up(self, value: int):
+    async def level_up(self, value: int):
         return self.__guild.level_up(value)
 
-    def accept(self, player: Player):
+    async def accept(self, player: Player):
         return self.__guild.accept(player.player)
     
-    def kick(self, nickname: str):
+    async def kick(self, nickname: str):
         return self.__guild.kick(nickname)
 
-    def appoint_leader(self, nickname: str):
+    async def appoint_leader(self, nickname: str):
         return self.__guild.set_leadership(nickname)
     
-    def members(self):
-        members = [Player(member.get_nickname()) for member in self.__guild.get_members()]
+    async def members(self):
+        members = [Player(await member.get_nickname()) for member in await self.__guild.get_members()]
         return members
 
-    def status(self):
+    async def status(self):
         return self.__guild.status()
 
-    def members_nickname(self):
+    async def members_nickname(self):
         return self.__guild.get_members_nickname()
